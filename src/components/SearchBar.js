@@ -1,19 +1,33 @@
 import React from "react";
 
 class SearchBar extends React.Component {
-    state = { term: '' };
+  state = { term: "" };
+
+  //Below, is an 'event callback' function, so we're defining it as an arrow function , to perform an callback binding.
+  onInputChange = (event) => {
+    this.setState({ term: event.target.value });
+  };
+
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    //Todo: Make sure to call a callback from parent component. The will therefore pass data from child to parent.
+  };
 
   render() {
     return (
-        <div className="search-bar ui segment">
-            <form className="ui form">
-                <div className="field">
-                    <label>Video Search</label>
-                    <input type="text" value={this.state.term} />
-                </div>
-            </form>
-        </div>
-    )
+      <div className="search-bar ui segment">
+        <form className="ui form" onSubmit={this.onFormSubmit}>
+          <div className="field">
+            <label>Video Search</label>
+            <input
+              type="text"
+              value={this.state.term}
+              onChange={this.onInputChange}
+            />
+          </div>
+        </form>
+      </div>
+    );
   }
 }
 
