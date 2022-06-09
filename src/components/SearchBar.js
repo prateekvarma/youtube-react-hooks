@@ -8,9 +8,12 @@ class SearchBar extends React.Component {
     this.setState({ term: event.target.value });
   };
 
+  //Below, this name should match the prop in the parent component. So, we're sending data from child to parent.
   onFormSubmit = (event) => {
     event.preventDefault();
-    //Todo: Make sure to call a callback from parent component. The will therefore pass data from child to parent.
+    
+    //below, we're using props to access the 'onFormSubmit' function from the parent. So data os flowing from parent to child. And then finally using 'this.state.term' as parameters to pass data from child to parent.
+    this.props.onFormSubmit(this.state.term)
   };
 
   render() {
