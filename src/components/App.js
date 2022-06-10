@@ -3,7 +3,8 @@ import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 
 class App extends React.Component {
-  //The 'term' does not require require props because it is passed up from child to parent.
+  state = { videos: [] };
+  //Below, the 'term' does not require require props because it is passed up from child to parent.
   onTermSubmit = async (term) => {
     //Below, 'youtube' is an instance of axios, so we can perform a get query on it. Moreover, we have appended 'search' and a few more params here, which add on to the previous ones defined in youtube.js
     const response = await youtube.get("/search", {
@@ -12,13 +13,14 @@ class App extends React.Component {
       },
     });
 
-    console.log(response);
+    this.setState({ videos: response.data.items })
   };
 
   render() {
     return (
       <div className="ui container">
         <SearchBar onFormSubmit={this.onTermSubmit} />
+        You have {this.state.videos.length} video results!
       </div>
     );
   }
