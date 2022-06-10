@@ -4,13 +4,15 @@ import youtube from "../apis/youtube";
 
 class App extends React.Component {
   //The 'term' does not require require props because it is passed up from child to parent.
-  onTermSubmit = (term) => {
+  onTermSubmit = async (term) => {
     //Below, 'youtube' is an instance of axios, so we can perform a get query on it. Moreover, we have appended 'search' and a few more params here, which add on to the previous ones defined in youtube.js
-    youtube.get("/search", {
+    const response = await youtube.get("/search", {
       params: {
         q: term,
       },
     });
+
+    console.log(response);
   };
 
   render() {
