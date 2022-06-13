@@ -4,7 +4,7 @@ import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 
 class App extends React.Component {
-  state = { videos: [] };
+  state = { videos: [], selectedVideo: null };
   //Below, the 'term' does not require require props because it is passed up from child to parent.
   onTermSubmit = async (term) => {
     //Below, 'youtube' is an instance of axios, so we can perform a get query on it. Moreover, we have appended 'search' and a few more params here, which add on to the previous ones defined in youtube.js
@@ -14,14 +14,21 @@ class App extends React.Component {
       },
     });
 
-    this.setState({ videos: response.data.items })
+    this.setState({ videos: response.data.items });
+  };
+
+  onVideoSelect = (video) => {
+    console.log("From the app component: ", video);
   };
 
   render() {
     return (
       <div className="ui container">
         <SearchBar onFormSubmit={this.onTermSubmit} />
-        <VideoList videos={this.state.videos} /> 
+        <VideoList
+          onVideoSelect={this.onVideoSelect} //this is a prop
+          videos={this.state.videos}
+        />
       </div>
     );
   }
