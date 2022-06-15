@@ -18,7 +18,7 @@ class App extends React.Component {
   };
 
   onVideoSelect = (video) => {
-    console.log("From the app component: ", video);
+    this.setState({ selectedVideo: video });
   };
 
   render() {
