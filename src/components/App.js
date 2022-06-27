@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
-import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
+import useVideos from "../hooks/useVideos";
 
 const App = () => {
-  const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videos, search] = useVideos('metallica'); //destructures out the list of videos, and the function to search videos - from useVideos.js custom hook.
 
   useEffect(() => {
-    onTermSubmit("metallica");
-  }, []);
-
-  const onTermSubmit = async (term) => {
-    //Below, 'youtube' is an instance of axios, so we can perform a get query on it. Moreover, we have appended 'search' and a few more params here, which add on to the previous ones defined in youtube.js
-    const response = await youtube.get("/search", {
-      params: {
-        q: term,
-      },
-    });
-
-    setVideos(response.data.items);
-    setSelectedVideo(response.data.items[0]);
-  };
+    //This essentially set's the first video as the selected video, from each new list of rendered videos.
+    setSelectedVideo(videos[0]);
+  }, [videos])
 
   const onVideoSelect = (video) => {
     setSelectedVideo(video);
@@ -30,7 +19,7 @@ const App = () => {
 
   return (
     <div className="ui container">
-      <SearchBar onFormSubmit={onTermSubmit} />
+      <SearchBar onFormSubmit={search} />
       <div className="ui grid">
         <div className="ui row">
           <div className="eleven wide column">
